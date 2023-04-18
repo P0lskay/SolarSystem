@@ -2,7 +2,7 @@ import turtle
 import math
 
 
-class SolarSystem:
+class SolarSystem(QtWidgets.QWidget):
     def __init__(self, width, height):
         self.thesun = None
         self.planets = []

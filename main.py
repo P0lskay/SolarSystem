@@ -2,59 +2,47 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPainter, QPen, QBrush
 from PyQt5.QtWidgets import QApplication
+from SolarSystem import SolarSystem
+from Planet import Planet
 
 
-class _Bar(QtWidgets.QWidget):
+class MainWindow(QtWidgets.QWidget):
 
-    def __init__(self, x = 10, y = 10, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.x = x
-        self.y = y
+    def __init__(self, steps=10, *args, **kwargs):
+        super(MainWindow, self).__init__(*args, **kwargs)
         self.setSizePolicy(
             QtWidgets.QSizePolicy.MinimumExpanding,
             QtWidgets.QSizePolicy.MinimumExpanding
         )
-
-    def sizeHint(self):
-        return QtCore.QSize(40,120)
-
-    def paintEvent(self, e):
-        painter = QPainter(self)
-        painter.setPen(QPen(Qt.yellow, 8, Qt.SolidLine))
-        painter.setBrush(QBrush(Qt.yellow, Qt.SolidPattern))
-        painter.drawEllipse(self.size().width() // 2, self.size().height() // 2, self.x, self.y)
-
-        painter.end()
-
-    def _trigger_refresh(self):
-        self.x += 10
-        self.y += 10
-        self.update()
-
-
-class PowerBar(QtWidgets.QWidget):
-    """
-    Custom Qt Widget to show a power bar and dial.
-    Demonstrating compound and custom-drawn widget.
-    """
-
-    def __init__(self, steps=10, *args, **kwargs):
-        super(PowerBar, self).__init__(*args, **kwargs)
+        planets_list = [
+            ['Sun', 50, 10, 0, Qt.yellow],
+            ['Mercury', 50, 10, 0, Qt.darkYellow],
+            ['Venus', 50, 10, 0, Qt.yellow],
+            ['Earth', 50, 10, 0, Qt.blue],
+            ['Mars', 50, 10, 0, Qt.red],
+            ['Jupiter', 50, 10, 0, Qt.darkRed],
+            ['Saturn', 50, 10, 0, Qt.darkYellow],
+            ['Uranus', 50, 10, 0, Qt.darkGreen],
+            ['Neptune', 50, 10, 0, Qt.darkBlue]
+        ]
 
         layout = QtWidgets.QVBoxLayout()
-        self._bar = _Bar()
-        layout.addWidget(self._bar)
+        self.solar_system = SolarSystem(planets_list)
+        p = Planet('Uranus', 100, 210, 0, Qt.darkGreen)
+        for space_object in self.solar_system.space_objects:
+            layout.addWidget(space_object)
 
-        self._dial = QtWidgets.QPushButton()
-        self._dial.clicked.connect(
-           self._bar._trigger_refresh
-        )
+        # _dial = QtWidgets.QPushButton()
+        # _dial.clicked.connect(
+        # self.solar_system.space_objects[8]._trigger_refresh
+        # )
 
-        layout.addWidget(self._dial)
+        #layout.addWidget(_dial)
         self.setLayout(layout)
+
 
 if __name__ == "__main__":
     app = QApplication([])
-    window = PowerBar()
-    window.show()
+    window = MainWindow()
+    window.showFullScreen()
     app.exec()
