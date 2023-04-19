@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QPoint
 from PyQt5.QtGui import QPainter, QPen, QBrush
 from PyQt5.QtWidgets import QApplication
 
@@ -16,22 +16,23 @@ class Planet(QtWidgets.QWidget):
             QtWidgets.QSizePolicy.MinimumExpanding,
             QtWidgets.QSizePolicy.MinimumExpanding
         )
-        self.current_x = self.size().width()
-        self.current_y = 3
-
+        self.current_x = self.parent().width()//2
+        self.current_y = self.parent().height()//2 - self.orbit_radius
 
 
     def paintEvent(self, e):
         painter = QPainter(self)
         painter.setPen(QPen(self.color, 8, Qt.SolidLine))
-        painter.setBrush(QBrush(Qt.yellow, Qt.SolidPattern))
-        painter.drawEllipse(self.current_x,
-                            self.current_y,
+        painter.setBrush(QBrush(self.color, Qt.SolidPattern))
+        painter.drawEllipse(QPoint(self.current_x, self.current_y),
                             self.object_diameter,
                             self.object_diameter
                             )
 
-        painter.end()
 
-    def _trigger_refresh(self):
-        self.update()
+        self.current_x += 100
+        self.current_y += 100
+
+
+    def trigger_refresh(self):
+        self.repaint()
