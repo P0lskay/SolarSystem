@@ -1,7 +1,8 @@
+from time import sleep
 from typing import List
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import Qt, QPropertyAnimation, QPoint
-from PyQt5.QtGui import QPainter, QPen, QBrush
+from PyQt5.QtCore import Qt, QPropertyAnimation, QPoint, QEasingCurve
+from PyQt5.QtGui import QPainter, QPen, QBrush, QPainterPath
 from PyQt5.QtWidgets import QApplication
 from Planet import Planet
 
@@ -19,20 +20,21 @@ class SolarSystem(QtWidgets.QWidget):
         self.initUi()
         self.show()
         self.move_planets(10)
+        self.mouseReleaseEvent = self.move_planets
 
     def initUi(self):
         for i in self.space_objects:
             self.p = i
-            self.p.setGeometry(0, 0, 1000, 1000)
-            anim = QPropertyAnimation(self.p, b'pos', self)
-            anim.setDuration(1)
-            anim.setStartValue(QPoint(0, 0))
-            anim.setEndValue(QPoint(100, 250))
-            anim.start()
+            self.p.setGeometry(100, 100, 1000, 1000)
             self.p.show()
 
+
     def move_planets(self, eatrth_days: int) -> list[(int, int)]:
-        pass
+        for i in self.space_objects:
+            self.p = i
+            for i in range(1):
+                self.p.move(*self.p.get_next_coordinates())
+                #sleep(0.01)
 
 
     def _trigger_refresh(self):

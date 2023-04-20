@@ -13,14 +13,14 @@ class MainWindow(QtWidgets.QWidget):
 
         planets_list = [
             ['Sun', 15, 0, 0, Qt.yellow],
-            ['Mercury', 10, 50, 0, Qt.darkYellow],
-            ['Venus', 10, 100, 0, Qt.yellow],
-            ['Earth', 10, 150, 0, Qt.blue],
-            ['Mars', 10, 200, 0, Qt.red],
-            ['Jupiter', 10, 250, 0, Qt.darkRed],
-            ['Saturn', 10, 300, 0, Qt.darkYellow],
-            ['Uranus', 10, 350, 0, Qt.darkGreen],
-            ['Neptune', 10, 400, 0, Qt.darkBlue]
+            ['Mercury', 10, 50, 1, Qt.darkYellow],
+            ['Venus', 10, 100, 1, Qt.yellow],
+            ['Earth', 10, 150, 1, Qt.blue],
+            ['Mars', 10, 200, 1, Qt.red],
+            ['Jupiter', 10, 250, 1, Qt.darkRed],
+            ['Saturn', 10, 300, 1, Qt.darkYellow],
+            ['Uranus', 10, 350, 1, Qt.darkGreen],
+            ['Neptune', 10, 400, 1, Qt.darkBlue]
         ]
 
         self.solar_system = SolarSystem(planets_list)
