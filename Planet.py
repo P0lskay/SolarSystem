@@ -1,8 +1,8 @@
 import math
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import Qt, QPoint
-from PyQt5.QtGui import QPainter, QPen, QBrush
+from PyQt5.QtCore import Qt, QPoint, QPointF
+from PyQt5.QtGui import QPainter, QPen, QBrush, QColor, QFont
 from PyQt5.QtWidgets import QApplication
 
 
@@ -10,7 +10,7 @@ class Planet(QtWidgets.QWidget):
     x_center_of_window: int
     y_center_of_window: int
 
-    def __init__(self, name: str, object_diameter: int, orbit_radius: float, speed_degrees_earth_day: float, color,
+    def __init__(self, name: str, object_diameter: float, orbit_radius: float, speed_degrees_earth_day: float, color,
                  *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.color = color
@@ -22,9 +22,9 @@ class Planet(QtWidgets.QWidget):
             QtWidgets.QSizePolicy.MinimumExpanding,
             QtWidgets.QSizePolicy.MinimumExpanding
         )
-        self.current_x = 1000 // 2
-        self.current_y = 1000 // 2 - self.orbit_radius
-        self.current_degrees = 0
+        self.current_x = 1000 // 2 + self.orbit_radius
+        self.current_y = 1000 // 2
+        self.current_degrees:float = 0.0
         self.x_center_of_window = 1000 // 2
         self.y_center_of_window = 1000 // 2
 
@@ -36,13 +36,21 @@ class Planet(QtWidgets.QWidget):
                             self.object_diameter,
                             self.object_diameter
                             )
-
+        if self.name != 'Sun':
+            painter.setPen(Qt.black)
+            painter.setFont(QFont('Decorative', min(10, self.object_diameter*5)))
+            painter.drawText(QPoint(self.current_x - self.object_diameter, self.current_y- 10 - self.object_diameter), self.name)
+            print(1)
 
     def get_next_coordinates(self):
-        self.current_degrees += self.speed_degrees_earth_day
-        old_x = self.current_x
-        old_y = self.current_y
-        self.current_x = self.x_center_of_window + self.orbit_radius * math.cos(math.radians(self.current_degrees))
-        self.current_y = self.y_center_of_window + self.orbit_radius * math.sin(math.radians(self.current_degrees))
-        result = (old_x - self.current_x, old_y - self.current_y)
-        return result
+            self.current_degrees += self.speed_degrees_earth_day
+
+            old_x = self.current_x
+            old_y = self.current_y
+            self.current_x = self.x_center_of_window + self.orbit_radius * math.cos(math.radians(self.current_degrees))
+            self.current_y = self.y_center_of_window + self.orbit_radius * math.sin(math.radians(self.current_degrees))
+            result = QPointF(old_x - self.current_x, old_y - self.current_y)
+            return result.toPoint()
+
+    def tst(self):
+        self.update()
