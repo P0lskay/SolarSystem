@@ -22,6 +22,7 @@ class SolarSystem(QtWidgets.QWidget):
         for planet in space_objects:
             new_space_objects = Planet(*planet, self)
             self.space_objects.append(new_space_objects)
+
         self.initUi()
         self.show()
 
@@ -45,13 +46,19 @@ class SolarSystem(QtWidgets.QWidget):
         time_control_widget.show()
 
         for planet in self.space_objects:
-            planet
             planet.setGeometry(0, 0, 1000, 1000)
             planet.show()
+            for satellite in planet.satellites:
+                satellite.setGeometry(0, 0, 1000, 1000)
+                satellite.show()
+
 
     def move_planets(self):
         for planet in self.space_objects:
             planet.move(planet.get_next_coordinates())
+            for satellite in planet.satellites:
+                satellite.move(satellite.get_next_coordinates(QPoint(planet.current_x, planet.current_y)))
+
         self.current_time.setDate(self.current_time.date().addDays(1))
 
 
