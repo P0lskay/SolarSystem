@@ -1,7 +1,5 @@
 import math
-
 from PyQt5.QtCore import QPointF, QPoint
-
 from SpaceObject import SpaceObject
 
 
@@ -17,6 +15,10 @@ class Satellite(SpaceObject):
         self.y_center_of_gravity = center_of_planet[1]
 
     def get_next_coordinates(self, new_center_of_gravity: QPoint):
+        """
+        Вычисляет сдвиг спутника относительно новой позиции его планеты для перехода к следующей позиции спутника
+        :return: QPoint, где x - сдвиг по Оx, а y - сдвиг по Oy
+        """
         self.x_center_of_gravity = new_center_of_gravity.x()
         self.y_center_of_gravity = new_center_of_gravity.y()
 

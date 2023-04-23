@@ -1,10 +1,3 @@
-import math
-
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import Qt, QPoint, QPointF
-from PyQt5.QtGui import QPainter, QPen, QBrush, QColor, QFont
-from PyQt5.QtWidgets import QApplication
-
 from Satellite import Satellite
 from SpaceObject import SpaceObject
 

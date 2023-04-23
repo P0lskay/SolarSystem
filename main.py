@@ -1,9 +1,7 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QPainter, QPen, QBrush
 from PyQt5.QtWidgets import QApplication
 from SolarSystem import SolarSystem
-from Planet import Planet
 
 
 class MainWindow(QtWidgets.QWidget):

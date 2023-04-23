@@ -1,10 +1,7 @@
-import threading
-from time import sleep
-from typing import List
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import Qt, QPropertyAnimation, QPoint, QEasingCurve, QDate
-from PyQt5.QtGui import QPainter, QPen, QBrush, QPainterPath
-from PyQt5.QtWidgets import QApplication, QPushButton, QHBoxLayout, QWidget, QDateEdit
+from PyQt5 import QtCore, QtWidgets
+from PyQt5.QtCore import Qt, QPoint, QDate
+from PyQt5.QtGui import QPainter, QPen
+from PyQt5.QtWidgets import QPushButton, QHBoxLayout, QWidget, QDateEdit
 from Planet import Planet
 
 
@@ -52,15 +49,16 @@ class SolarSystem(QtWidgets.QWidget):
                 satellite.setGeometry(0, 0, 1000, 1000)
                 satellite.show()
 
-
     def move_planets(self):
+        """
+        Двигает все космические объекты и их спутники. А также меняет дату на следующий день
+        """
         for planet in self.space_objects:
             planet.move(planet.get_next_coordinates())
             for satellite in planet.satellites:
                 satellite.move(satellite.get_next_coordinates(QPoint(planet.current_x, planet.current_y)))
 
         self.current_time.setDate(self.current_time.date().addDays(1))
-
 
     def clicked_stop_btn(self):
         self.timer.stop()
@@ -81,6 +79,7 @@ class SolarSystem(QtWidgets.QWidget):
     def paintEvent(self, event):
         painter = QPainter(self)
         for planet in self.space_objects:
-            painter.setPen(QPen(Qt.black,  1, Qt.DotLine))
-            painter.drawEllipse(1000 // 2-planet.orbit_radius, 1000 // 2 - planet.orbit_radius, planet.orbit_radius*2, planet.orbit_radius*2)
+            painter.setPen(QPen(Qt.black, 1, Qt.DotLine))
+            painter.drawEllipse(1000 // 2 - planet.orbit_radius, 1000 // 2 - planet.orbit_radius,
+                                planet.orbit_radius * 2, planet.orbit_radius * 2)
         painter.end()

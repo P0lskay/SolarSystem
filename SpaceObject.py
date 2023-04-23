@@ -1,8 +1,9 @@
 import math
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt, QPoint, QPointF
-from PyQt5.QtGui import QPainter, QPen, QBrush, QColor, QFont
+from PyQt5.QtGui import QPainter, QPen, QBrush, QFont
+
 
 class SpaceObject(QtWidgets.QWidget):
 
@@ -24,7 +25,6 @@ class SpaceObject(QtWidgets.QWidget):
         self.x_center_of_gravity = 1000 // 2
         self.y_center_of_gravity = 1000 // 2
 
-
     def paintEvent(self, e):
         painter = QPainter(self)
         painter.setPen(QPen(self.color, 8, Qt.SolidLine))
@@ -40,6 +40,10 @@ class SpaceObject(QtWidgets.QWidget):
                              self.name)
 
     def get_next_coordinates(self):
+        """
+        Вычисляет сдвиг планеты относительно текущей позиции для перехода к ее следующей позиции
+        :return: QPoint, где x - сдвиг по Оx, а y - сдвиг по Oy
+        """
         self.current_degrees += self.speed_degrees_earth_day
 
         old_x = self.current_x
